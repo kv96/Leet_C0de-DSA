@@ -1,21 +1,36 @@
 class Solution {
 public:
     void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
-        int i = m - 1;       // Last valid element in nums1
-        int j = n - 1;       // Last element in nums2
-        int k = m + n - 1;   // Last position in nums1
+        int i = 0, j = 0, k = 0;
+        vector<int> resultant(m + n);
 
-        // Merge from the back
-        while (j >= 0) {
-            if (i >= 0 && nums1[i] > nums2[j]) {
-                nums1[k] = nums1[i];
-                i--;
+        while(i < m && j < n){
+            if(nums1[i] <= nums2[j]){
+                resultant[k] = nums1[i];
+                k++;
+                i++;
             }
-            else {
-                nums1[k] = nums2[j];
-                j--;
+            else{
+                resultant[k] = nums2[j];
+                k++;
+                j++;
             }
-            k--;
         }
+
+        while(i < m){
+            resultant[k] = nums1[i];
+            k++;
+            i++;
+        }
+
+        while(j < n){
+            resultant[k++] = nums2[j++];
+        }
+
+        // Copy the merged result back into nums1
+        for (int p = 0; p < m + n; p++) {
+            nums1[p] = resultant[p];
+        }
+
     }
 };
